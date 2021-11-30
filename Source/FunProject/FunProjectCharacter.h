@@ -29,6 +29,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Combat")
+	TSubclassOf<AActor> projectileToSpawn;
+
 protected:
 
 	/** Called for forwards/backward input */
@@ -48,6 +51,9 @@ protected:
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
 	void LookUpAtRate(float Rate);
+
+	void OnInteract();
+	void OnShoot();
 
 protected:
 	// APawn interface

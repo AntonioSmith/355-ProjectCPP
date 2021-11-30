@@ -14,6 +14,8 @@
 
 AFunProjectCharacter::AFunProjectCharacter()
 {
+	projectileToSpawn = nullptr;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -67,6 +69,29 @@ void AFunProjectCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 	PlayerInputComponent->BindAxis("TurnRate", this, &AFunProjectCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFunProjectCharacter::LookUpAtRate);
+
+	PlayerInputComponent->BindAction("Interact", EInputEvent::IE_Pressed, this, &AFunProjectCharacter::OnInteract);
+	PlayerInputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AFunProjectCharacter::OnShoot);
+}
+
+void AFunProjectCharacter::OnInteract() 
+{
+	// test 
+
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Green, TEXT("Hello World"));
+
+}
+
+void AFunProjectCharacter::OnShoot()
+{
+	// spawning objects
+	if (projectileToSpawn) 
+	{
+		// FVector pos = GetActorLocation() + GetActorTransform().TransformVector(FVector::ForwardVector * 100); // This is an alternative way to say whats said below
+		FVector pos = GetActorLocation() + GetActorRotation().Vector() * 100;
+
+		GetWorld()->SpawnActor<AActor>(projectileToSpawn, pos, GetActorRotation());
+	}
 }
 
 void AFunProjectCharacter::TurnAtRate(float Rate)
