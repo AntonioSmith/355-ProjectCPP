@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Door.generated.h"
+#include "UObject/ConstructorHelpers.h"
+
+#include "Door.generated.h" // Must always be last
 
 class UScneComponent;
 
@@ -18,12 +20,30 @@ public:
 	ADoor();
 
 	// scene component for root
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnl, Category="Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	class USceneComponent* TheRoot;
 
 	// scene component for hinge
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	class USceneCompnent* TheHinge;
+	class USceneComponent* TheHinge;
+
+	// mesh for door
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UStaticMeshComponent* TheMeshDoor;
+
+	// mesh for door frame
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	class UInstancedStaticMeshComponent* TheMeshFrame;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Door Stuff")
+	float WidthofDoor = 200;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Door Stuff")
+	float HeightofDoor = 300;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Door Stuff")
+	float DepthofDoor = 200;
+
 
 
 

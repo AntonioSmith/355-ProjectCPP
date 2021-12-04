@@ -16,6 +16,19 @@ ADoor::ADoor()
 
 	TheHinge = CreateDefaultSubobject<USceneComponent>(FName("TheHinge"));
 	TheHinge->SetupAttachment(TheRoot);
+
+	TheMeshDoor = CreateDefaultSubobject<UStaticMeshComponent>(FName("TheMeshDoor"));
+	TheMeshDoor->SetupAttachment(TheHinge);
+
+	TheMeshFrame = CreateDefaultSubobject<UInstancedStaticMeshComponent>(FName("TheMeshFrame"));
+	TheMeshFrame->SetupAttachment(TheRoot);
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh> TheCubeMesh(TEXT("/Game/Art/Meshes/1M_Cube"));
+
+	if (TheCubeMesh.Object) 
+	{
+		TheMeshDoor->SetStaticMesh(TheCubeMesh.Object);
+	}
 }
 
 // Called when the game starts or when spawned
