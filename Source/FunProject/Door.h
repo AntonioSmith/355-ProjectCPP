@@ -4,14 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "UObject/ConstructorHelpers.h"
+#include "InteractableThing.h"
 
 #include "Door.generated.h" // Must always be last
 
-class UScneComponent;
+class USceneComponent;
 
 UCLASS()
-class FUNPROJECT_API ADoor : public AActor
+class FUNPROJECT_API ADoor : public AActor, public IInteractableThing
 {
 	GENERATED_BODY()
 	
@@ -35,14 +37,14 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	class UInstancedStaticMeshComponent* TheMeshFrame;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Door Stuff")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door Stuff")
 	float WidthofDoor = 200;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Door Stuff")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door Stuff")
 	float HeightofDoor = 300;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Door Stuff")
-	float DepthofDoor = 200;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Door Stuff")
+	float DepthofDoor = 25;
 
 
 
@@ -54,5 +56,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual void OnConstruction(const FTransform& xform) override;
 
+	virtual void Interact();
 };

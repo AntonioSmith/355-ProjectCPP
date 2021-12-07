@@ -28,6 +28,7 @@ ADoor::ADoor()
 	if (TheCubeMesh.Object) 
 	{
 		TheMeshDoor->SetStaticMesh(TheCubeMesh.Object);
+		TheMeshFrame->SetStaticMesh(TheCubeMesh.Object);
 	}
 }
 
@@ -45,3 +46,22 @@ void ADoor::Tick(float DeltaTime)
 
 }
 
+void ADoor::OnConstruction(const FTransform& xform)
+{
+	Super::OnConstruction(xform);
+
+	TheMeshDoor->SetWorldScale3D(FVector(WidthofDoor, DepthofDoor, HeightofDoor) / 100);
+
+	TheMeshDoor->SetRelativeLocation(FVector(WidthofDoor / 2, 0, HeightofDoor / 2));
+
+	TheHinge->SetRelativeLocation(FVector(-WidthofDoor / 2, 0, 0));
+
+	TheMeshFrame->ClearInstances();
+	TheMeshFrame->AddInstance(FTransform(FRotator(0, 0, 0), FVector(WidthofDoor / 2 + DepthofDoor / 2, 0, HeightofDoor / 2), FVector(DepthofDoor, DepthofDoor, HeightofDoor) / 100));
+	TheMeshFrame->AddInstance(FTransform(FRotator(0, 0, 0), FVector(-WidthofDoor / 2 - DepthofDoor / 2, 0, HeightofDoor / 2), FVector(DepthofDoor, DepthofDoor, HeightofDoor) / 100));
+}
+
+void ADoor::Interact()
+{
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Green, "Player interacted with door");
+}
